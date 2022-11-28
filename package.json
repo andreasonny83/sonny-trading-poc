@@ -11,7 +11,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node build.js",
     "server:dev": "npm run build && node dist/index.js",
-    "server:start": "npm run build && npx pm2 start dist/index.js"
+    "server:start": "npm run build && npx pm2 start dist/index.js",
+    "server:stop": "npx pm2 stop all"
   },
   "author": "andreasonny83",
   "license": "ISC",
@@ -36,6 +37,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "helmet": "^6.0.0",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "winston": "^3.8.2"
   }
 }

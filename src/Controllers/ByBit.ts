@@ -2,6 +2,27 @@ import { Request, Response, Router } from 'express';
 import { DynamoDB } from 'aws-sdk';
 import { config } from '../config';
 import axios from 'axios';
+import winston from 'winston';
+
+const logger = winston.createLogger({
+  level: 'verbose',
+  format: winston.format.simple(),
+  defaultMeta: { service: 'sonny-trading-service' },
+  transports: [
+    new winston.transports.File({
+      filename: 'debug.log',
+      maxsize: 10000000,
+    }),
+  ],
+});
+
+if (process.env.NODE_ENV !== 'production') {
+  logger.add(
+    new winston.transports.Console({
+      format: winston.format.simple(),
+    })
+  );
+}
 
 export class ByBit {
   public path = '/';
@@ -17,14 +38,14 @@ export class ByBit {
   }
 
   async index(req: Request, res: Response) {
-    console.log(`Request: ${JSON.stringify(req.body, null, 2)}`);
-    // console.log(`Env Variables: ${JSON.stringify(process.env, null, 2)}`);
+    logger.info(`Request: ${JSON.stringify(req.body, null, 2)}`);
+    // logger.info(`Env Variables: ${JSON.stringify(process.env, null, 2)}`);
 
     const input: any = req?.body || '{}';
 
     if (!input?.SYMBOL) {
-      console.log('Cronjob trigger');
-      return res.status(200).json({});
+      logger.error('Missing required parameter: SYMBOL');
+      return res.status(400).json({});
     }
 
     const SYMBOL = input?.SYMBOL || 'BTCUSD';
@@ -42,10 +63,13 @@ export class ByBit {
 
     try {
       apiRes = await axios.get(API_URL);
-      console.log('API response', apiRes.data);
+      logger.info('API response', apiRes.data);
+      if (apiRes.data.retMsg !== 'OK') {
+        throw new Error('Invalid request');
+      }
     } catch (err) {
-      console.log(err);
-      return res.status(500).json({});
+      logger.error(err);
+      return res.status(400).json({});
     }
 
     const askPrice = apiRes.data.result.list[0].askPrice;
@@ -65,12 +89,12 @@ export class ByBit {
       },
     };
 
-    console.log(`Params: ${JSON.stringify(params, null, 2)}`);
+    logger.info(`Params: ${JSON.stringify(params, null, 2)}`);
     try {
       await client.put(params).promise();
     } catch (err) {
-      console.log(err);
-      return res.status(500).json({});
+      logger.error(err);
+      return res.status(400).json({});
     }
 
     return res.status(200).json({});
