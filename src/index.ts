@@ -6,6 +6,7 @@ import morgan from 'morgan';
 import { App } from './App';
 import { config } from './config';
 import { HealthCheck } from './Controllers/Healthcheck';
+import { ByBit } from './Controllers/ByBit';
 
 const { PORT } = config;
 
@@ -15,15 +16,15 @@ if (!PORT) {
   process.exit(1);
 }
 
-const middleWares = [helmet(), cors(), morgan('dev'), express.json()];
+const middleWares = [helmet(), cors(), express.json()];
 
-if (config.NODE_ENV === 'development') {
+if (config.NODE_ENV === 'dev') {
   middleWares.push(morgan('dev'));
 }
 
 const app = new App({
-  controllers: [new HealthCheck()],
-  middleWares: [helmet(), cors(), morgan('dev'), express.json()],
+  controllers: [new HealthCheck(), new ByBit()],
+  middleWares,
   port: PORT,
 });
 

@@ -5,7 +5,7 @@ const { exec } = require('child_process');
 const sharedConfig = {
   entryPoints: ['src/index.ts'],
   bundle: true,
-  minify: true,
+  minify: false,
   external: Object.keys(dependencies),
 };
 
@@ -15,15 +15,15 @@ build({
   outfile: 'dist/index.js',
   define: { 'process.env.PORT': '"8080"' },
   watch: {
-    onRebuild(err, result) {
+    onRebuild(err) {
       if (err) log('error');
       else {
         exec('node dist/index.js');
-        console.log('Server started at http://localhost:8080 in "development" mode');
+        console.log('Server started at http://localhost:8080 in "dev" mode');
       }
     },
   },
-}).then((result) => {
+}).then(() => {
   exec('node dist/index.js');
-  console.log('Server started at http://localhost:8080 in "development" mode');
+  console.log('Server started at http://localhost:8080 in "dev" mode');
 });
