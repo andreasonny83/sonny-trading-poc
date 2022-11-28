@@ -34,7 +34,6 @@ export class ByBit {
 
   public initRoutes() {
     this.router.post('/bybit', this.index);
-    this.router.get('/bybit', this.index);
   }
 
   async index(req: Request, res: Response) {

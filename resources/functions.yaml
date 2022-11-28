@@ -1,4 +1,4 @@
-getUsers:
+run:
     handler: ./src/handler.run
     events:
       - http:
@@ -7,6 +7,6 @@ getUsers:
           cors: true
       - schedule:
           rate: rate(4 minutes)
-          enabled: true
+          enabled: false
     environment:
       TABLE_NAME: ${self:custom.tableName}
