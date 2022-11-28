@@ -1,0 +1,39 @@
+{
+  "name": "sonny-trading-poc",
+  "version": "1.0.0",
+  "description": "Trading View handler",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "sls dynamodb install",
+    "start:dynamodb": "sls dynamodb start",
+    "deploy": "sls --stage prod --region ap-southeast-1 --aws-profile default",
+    "dev": "sls offline --stage dev --aws-profile default",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node build.js",
+    "server:dev": "node build.dev.js"
+  },
+  "author": "andreasonny83",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.108",
+    "@types/cors": "^2.8.12",
+    "@types/node": "^16.18.3",
+    "aws-lambda": "^1.0.7",
+    "esbuild": "^0.15.15",
+    "serverless": "^3.24.1",
+    "serverless-dynamodb-local": "^0.2.40",
+    "serverless-esbuild": "1.32.8",
+    "serverless-offline": "^11.5.0",
+    "typescript": "^4.9.3"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1258.0",
+    "axios": "^1.2.0",
+    "body-parser": "^1.20.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "helmet": "^6.0.0",
+    "morgan": "^1.10.0"
+  }
+}

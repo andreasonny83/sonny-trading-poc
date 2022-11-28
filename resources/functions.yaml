@@ -1,0 +1,12 @@
+getUsers:
+    handler: ./src/handler.run
+    events:
+      - http:
+          path: /
+          method: POST
+          cors: true
+      - schedule:
+          rate: rate(4 minutes)
+          enabled: true
+    environment:
+      TABLE_NAME: ${self:custom.tableName}

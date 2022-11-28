@@ -1,0 +1,38 @@
+org: andreasonny83
+app: trading-poc
+service: trading-function
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: ${opt:stage, "dev"}
+  region: ${opt:region, "us-east-1"}
+  profile: ${opt:aws-profile, "default"}
+  environment:
+    NODE_ENV: ${opt:stage, "dev"}
+    REGION: ${opt:region, "us-east-1"}
+
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+          Resource:
+            Fn::GetAtt:
+              - webhookTable
+              - Arn
+
+plugins:
+  - serverless-dynamodb-local
+  - serverless-esbuild
+  - serverless-offline
+
+custom: ${file(resources/custom.yaml)}
+
+functions: ${file(resources/functions.yaml)}
+
+resources:
+  Resources: ${file(resources/general.yaml)}

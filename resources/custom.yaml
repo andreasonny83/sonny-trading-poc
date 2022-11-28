@@ -1,0 +1,17 @@
+esbuild:
+  bundle: true
+  minify: false
+  sourcemap: true
+  target: "node14"
+  platform: "node"
+
+dynamodb:
+    stages:
+      - ${opt:stage, "dev"}
+    start:
+      port: 8000
+      migrate: true
+      # inMemory: true
+      # convertEmptyValues: true
+
+tableName: ${self:service}-${self:provider.stage}-webhook-data
