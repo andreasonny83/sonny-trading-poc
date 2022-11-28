@@ -38,8 +38,15 @@ export class ByBit {
 
     const date = new Date();
     const timestamp = Date.now();
-    const apiRes: any = await axios.get(API_URL);
-    console.warn(apiRes.data);
+    let apiRes: any = {};
+
+    try {
+      apiRes = await axios.get(API_URL);
+      console.log('API response', apiRes.data);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({});
+    }
 
     const askPrice = apiRes.data.result.list[0].askPrice;
     const markPrice = apiRes.data.result.list[0].markPrice;
@@ -59,7 +66,12 @@ export class ByBit {
     };
 
     console.log(`Params: ${JSON.stringify(params, null, 2)}`);
-    await client.put(params).promise();
+    try {
+      await client.put(params).promise();
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({});
+    }
 
     return res.status(200).json({});
   }
