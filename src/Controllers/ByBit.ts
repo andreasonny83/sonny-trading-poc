@@ -11,16 +11,7 @@ export class ByBit {
     this.initRoutes();
   }
 
-  private getDynamoDbClient(): DynamoDB.DocumentClient {
-    if (config.NODE_ENV === 'dev') {
-      return new DynamoDB.DocumentClient({
-        region: 'localhost',
-        endpoint: 'http://localhost:8000',
-        accessKeyId: 'DEFAULT_ACCESS_KEY',
-        secretAccessKey: 'DEFAULT_SECRET',
-      });
-    }
-
+  getDynamoDbClient(): DynamoDB.DocumentClient {
     return new DynamoDB.DocumentClient({
       region: config.REGION,
     });
@@ -33,7 +24,7 @@ export class ByBit {
 
   async index(req: Request, res: Response) {
     console.log(`Request: ${JSON.stringify(req.body, null, 2)}`);
-    // console.log(`Env Variables: ${JSON.stringify(process.env, null, 2)}`);
+    console.log(`Env Variables: ${JSON.stringify(process.env, null, 2)}`);
 
     const input: any = req?.body || '{}';
 
