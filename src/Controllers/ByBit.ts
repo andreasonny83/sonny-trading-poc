@@ -39,6 +39,7 @@ export class ByBit {
     const date = new Date();
     const timestamp = Date.now();
     const apiRes: any = await axios.get(API_URL);
+    console.warn(apiRes.data);
 
     const askPrice = apiRes.data.result.list[0].askPrice;
     const markPrice = apiRes.data.result.list[0].markPrice;
@@ -57,6 +58,7 @@ export class ByBit {
       },
     };
 
+    console.log(`Params: ${JSON.stringify(params, null, 2)}`);
     await client.put(params).promise();
 
     return res.status(200).json({});
