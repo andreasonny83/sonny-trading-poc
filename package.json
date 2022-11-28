@@ -11,7 +11,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node build.js",
     "server:dev": "node build.dev.js",
-    "server:start": "npm run build && npx pm2 dist/index.js"
+    "server:start": "npm run build && npx pm2 start dist/index.js"
   },
   "author": "andreasonny83",
   "license": "ISC",
