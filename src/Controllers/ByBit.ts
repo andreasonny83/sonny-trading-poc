@@ -11,12 +11,6 @@ export class ByBit {
     this.initRoutes();
   }
 
-  getDynamoDbClient(): DynamoDB.DocumentClient {
-    return new DynamoDB.DocumentClient({
-      region: config.REGION,
-    });
-  }
-
   public initRoutes() {
     this.router.post('/bybit', this.index);
     this.router.get('/bybit', this.index);
@@ -38,7 +32,10 @@ export class ByBit {
     const TRIGGER = input?.TRIGGER || 'N/A';
     const API_URL = `https://api.bybit.com/derivatives/v3/public/tickers?symbol=${SYMBOL}&category=${CATEGORY}`;
 
-    const client = this.getDynamoDbClient();
+    const client = new DynamoDB.DocumentClient({
+      region: config.REGION,
+    });
+
     const date = new Date();
     const timestamp = Date.now();
     const apiRes: any = await axios.get(API_URL);
