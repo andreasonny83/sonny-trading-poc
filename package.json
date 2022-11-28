@@ -10,7 +10,7 @@
     "dev": "sls offline --stage dev --aws-profile default",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node build.js",
-    "server:dev": "node build.dev.js",
+    "server:dev": "npm run build && node dist/index.js",
     "server:start": "npm run build && npx pm2 start dist/index.js"
   },
   "author": "andreasonny83",
