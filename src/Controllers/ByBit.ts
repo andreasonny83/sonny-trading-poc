@@ -37,7 +37,8 @@ export class ByBit {
   }
 
   async index(req: Request, res: Response) {
-    logger.info(`Request: ${JSON.stringify(req.body, null, 2)}`);
+    logger.info('Request', req.body);
+    // logger.info('Env Variables', process.env);
     // logger.info(`Env Variables: ${JSON.stringify(process.env, null, 2)}`);
 
     const input: any = req?.body || '{}';
