@@ -11,8 +11,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node build.js",
     "server:dev": "npm run build && node dist/index.js",
-    "server:start": "npm run build && npx pm2 start dist/index.js",
-    "server:stop": "npx pm2 stop all"
+    "server:start": "npm run build && npx pm2 start dist/index.js --name sonny-trading",
+    "server:stop": "npx pm2 stop sonny-trading"
   },
   "author": "andreasonny83",
   "license": "ISC",
